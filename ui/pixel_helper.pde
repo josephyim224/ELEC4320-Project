@@ -24,6 +24,8 @@ int set_pixel(int pixel, byte data, int c) {
     return (pixel & 0xff_ff_00_ff) | (data << 8);
   case 2:
     return (pixel & 0xff_ff_ff_00) | (data);
+  default:
+    return 0;
   }
 }
 

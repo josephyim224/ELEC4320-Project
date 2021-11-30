@@ -4,7 +4,7 @@ PImage src_image, result_image;
 Serial serial;
 
 /*
-  is_read: is reading mode
+ is_read: is reading mode
  is_read_whole: is reading whole image
  read_x
  read_y
@@ -62,7 +62,7 @@ void draw() {
   draw_button(360, 280, "all");
 
   // serial
-  while (serial.available() > 0) {
+  while (serial != null && serial.available() > 0) {
     byte inByte = byte(serial.read());
     println(inByte);
 

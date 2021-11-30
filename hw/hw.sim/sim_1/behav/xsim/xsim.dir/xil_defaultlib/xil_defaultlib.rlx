@@ -1,0 +1,10 @@
+0.7
+2020.2
+Nov 18 2020
+09:47:47
+C:/Users/josep/GitHub/ELEC4320-Project/hw/hw.sim/sim_1/behav/xsim/glbl.v,1605673889,verilog,,,,glbl,,,,,,,,
+C:/Users/josep/GitHub/ELEC4320-Project/hw/hw.srcs/sim_1/new/tb.v,1638285475,verilog,,,,testbench,,,../../../../hw.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/josep/GitHub/ELEC4320-Project/hw/hw.srcs/sources_1/new/breathing_led.v,1638284801,verilog,,C:/Users/josep/GitHub/ELEC4320-Project/hw/hw.srcs/sources_1/new/top.v,,breathing_led,,,../../../../hw.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/josep/GitHub/ELEC4320-Project/hw/hw.srcs/sources_1/new/top.v,1638285298,verilog,,C:/Users/josep/GitHub/ELEC4320-Project/hw/hw.srcs/sources_1/new/uart_rx.v,,top,,,../../../../hw.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/josep/GitHub/ELEC4320-Project/hw/hw.srcs/sources_1/new/uart_rx.v,1638286280,verilog,,C:/Users/josep/GitHub/ELEC4320-Project/hw/hw.srcs/sources_1/new/uart_tx.v,,uart_rx,,,../../../../hw.gen/sources_1/ip/clk_wiz_0,,,,,
+C:/Users/josep/GitHub/ELEC4320-Project/hw/hw.srcs/sources_1/new/uart_tx.v,1638286239,verilog,,C:/Users/josep/GitHub/ELEC4320-Project/hw/hw.srcs/sim_1/new/tb.v,,uart_tx,,,../../../../hw.gen/sources_1/ip/clk_wiz_0,,,,,

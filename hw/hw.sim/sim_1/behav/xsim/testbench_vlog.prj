@@ -1,0 +1,14 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../hw.gen/sources_1/ip/clk_wiz_0" \
+"../../../../hw.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_sim_netlist.v" \
+"../../../../hw.srcs/sources_1/new/breathing_led.v" \
+"../../../../hw.srcs/sources_1/new/top.v" \
+"../../../../hw.srcs/sources_1/new/uart_rx.v" \
+"../../../../hw.srcs/sources_1/new/uart_tx.v" \
+"../../../../hw.srcs/sim_1/new/tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

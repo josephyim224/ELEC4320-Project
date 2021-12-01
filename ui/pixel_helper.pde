@@ -12,18 +12,18 @@ byte[] pixel_to_bytes(int c) {
   return new byte[] {
     (byte)(c >> 16),
     (byte)(c >> 8),
-    (byte)(c >> 24)
+    (byte)(c >> 0)
   };
 }
 
 int set_pixel(int pixel, byte data, int c) {
   switch (c) {
   case 0:
-    return (pixel & 0xff_00_ff_ff) | (data << 16);
+    return (pixel & 0xff_00_ff_ff) | (int(data) << 16);
   case 1:
-    return (pixel & 0xff_ff_00_ff) | (data << 8);
+    return (pixel & 0xff_ff_00_ff) | (int(data) << 8);
   case 2:
-    return (pixel & 0xff_ff_ff_00) | (data);
+    return (pixel & 0xff_ff_ff_00) | (int(data));
   default:
     return 0;
   }

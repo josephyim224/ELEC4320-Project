@@ -21,7 +21,11 @@ void setup() {
   noFill();
 
   src_image = loadImage("../img/apple.png");
-  result_image = createImage(140, 140, RGB);
+  result_image = createImage(140, 140, ARGB);
+
+  for (int i = 0; i < 140*140; ++i) {
+    result_image.pixels[i] = 0xff_00_00_00;
+  }
 
   is_read = false;
   is_read_whole = false;
@@ -30,7 +34,7 @@ void setup() {
   read_c = 0;
 
   printArray(Serial.list());
-  if (use_serial) serial = new Serial(this, Serial.list()[0], 9600);
+  if (use_serial) serial = new Serial(this, Serial.list()[0], 115200);
 
   println("init done");
 }
@@ -67,7 +71,7 @@ void draw() {
     println(inByte);
 
     if (is_read) {
-      result_image.pixels[100*read_y+read_x] = set_pixel(result_image.pixels[100*read_y+read_x], inByte, read_c);
+      result_image.pixels[140*read_y+read_x] = set_pixel(result_image.pixels[140*read_y+read_x], inByte, read_c);
 
       if (read_c < 2) {
         read_c+=1;
@@ -77,7 +81,7 @@ void draw() {
       }
 
       if (read_x==140) {
-        if (is_read_whole && read_y != 140) {
+        if (is_read_whole && read_y != 139) {
           read_y+=1;
           read_x=0;
 
@@ -88,6 +92,7 @@ void draw() {
         } else {
           is_read=false;
           println("read data end");
+          result_image.updatePixels();
         }
       }
     }

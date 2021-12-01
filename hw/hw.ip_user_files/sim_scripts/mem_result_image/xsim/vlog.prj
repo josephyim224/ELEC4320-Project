@@ -1,0 +1,6 @@
+verilog xil_defaultlib  \
+"../../../../hw.gen/sources_1/ip/mem_result_image/sim/mem_result_image.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+nosort

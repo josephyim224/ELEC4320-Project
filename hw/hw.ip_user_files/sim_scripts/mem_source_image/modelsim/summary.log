@@ -1,7 +1,7 @@
 
 User Configuration
 --------------------------------------------------------------------------------
-Algorithm                  :     Fixed_Primitives
+Algorithm                  :     Minimum_Area
 Memory Type                :     True_Dual_Port_RAM
 Port A Read Width          :     [8]
 Port A Write Width         :     [8]

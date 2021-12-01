@@ -106,7 +106,7 @@ output wire [7 : 0] doutb;
     .C_AXI_ID_WIDTH(4),
     .C_MEM_TYPE(2),
     .C_BYTE_SIZE(9),
-    .C_ALGORITHM(0),
+    .C_ALGORITHM(1),
     .C_PRIM_TYPE(3),
     .C_LOAD_INIT_FILE(0),
     .C_INIT_FILE_NAME("no_coe_file_loaded"),

@@ -204,7 +204,7 @@ reg [2:0] r_SM_Main = 0;
 reg [1:0] r_Scale_Factor = 0;
 reg [1:0] r_Color = 0;
 reg [15:0] r_Mem_Counter = 0;
-reg [10:0] r_Tx_Delay = 0;
+reg [2:0] r_Tx_Delay = 0;
 
 assign led[3] = r_SM_Main == s_IDLE;
 assign led[4] = r_SM_Main == s_SET_SCALE_FACTOR;
@@ -213,8 +213,6 @@ assign led[6] = r_SM_Main == s_SET_WRITE_ROW;
 assign led[7] = r_SM_Main == s_PROCESS;
 assign led[8] = r_SM_Main == s_SET_SEND_ROW_NUMBER;
 assign led[9] = r_SM_Main == s_SEND_ROW;
-
-assign led[15:10] = w_Rx_Byte[5:0];
 
 always @(posedge clk_100MHz) begin
     if (r_Tx_DV) r_Tx_DV <= 1'b0;
@@ -340,7 +338,6 @@ always @(posedge clk_100MHz) begin
                 begin
                     r_SM_Main = s_IDLE;
 
-                    // maybe too fast so not send out
                     r_Tx_Byte <= 8'd4;
                     r_Tx_DV <= 1'b1;
                 end
@@ -375,21 +372,21 @@ always @(posedge clk_100MHz) begin
                             begin
                                 r_Tx_Byte <= w_Result_Image_Dout_A_R;
                                 r_Tx_DV <= 1'b1;
-                                r_Tx_Delay <= 8'b1111;
+                                r_Tx_Delay <= 8'b111;
                                 r_Color <= 1;
                             end
                             1:
                             begin
                                 r_Tx_Byte <= w_Result_Image_Dout_A_G;
                                 r_Tx_DV <= 1'b1;
-                                r_Tx_Delay <= 8'b1111;
+                                r_Tx_Delay <= 8'b111;
                                 r_Color <= 2;
                             end
                             2:
                             begin
                                 r_Tx_Byte <= w_Result_Image_Dout_A_B;
                                 r_Tx_DV <= 1'b1;
-                                r_Tx_Delay <= 8'b1111;
+                                r_Tx_Delay <= 8'b111;
                                 r_Color <= 0;
 
                                 if (r_Mem_Counter == 139) r_SM_Main = s_IDLE;

@@ -122,73 +122,32 @@ mem_source_image SOURCE_IMAGE_B(
     .web(r_Source_Image_We_B_B)
 );
 
-reg [15:0] r_Result_Image_Addr_A = 0;
-reg [15:0] r_Result_Image_Addr_B = 0;
+reg [15:0] r_Result_Mem_Addr = 0;
 
-wire [7:0] w_Result_Image_Dout_A_R;
-wire [7:0] w_Result_Image_Dout_B_R;
-reg [7:0] r_Result_Image_Din_A_R = 0;
-reg [7:0] r_Result_Image_Din_B_R = 0;
-reg [0:0] r_Result_Image_We_A_R = 0;
-reg [0:0] r_Result_Image_We_B_R = 0;
+wire [7:0] w_Result_Mem_Dout_R;
+reg [7:0] r_Result_Mem_Din_R = 0;
+reg [0:0] r_Result_Mem_We_R = 0;
 
-wire [7:0] w_Result_Image_Dout_A_G;
-wire [7:0] w_Result_Image_Dout_B_G;
-reg [7:0] r_Result_Image_Din_A_G = 0;
-reg [7:0] r_Result_Image_Din_B_G = 0;
-reg [0:0] r_Result_Image_We_A_G = 0;
-reg [0:0] r_Result_Image_We_B_G = 0;
+wire [7:0] w_Result_Mem_Dout_G;
+reg [7:0] r_Result_Mem_Din_G = 0;
+reg [0:0] r_Result_Mem_We_G = 0;
 
-wire [7:0] w_Result_Image_Dout_A_B;
-wire [7:0] w_Result_Image_Dout_B_B;
-reg [7:0] r_Result_Image_Din_A_B = 0;
-reg [7:0] r_Result_Image_Din_B_B = 0;
-reg [0:0] r_Result_Image_We_A_B = 0;
-reg [0:0] r_Result_Image_We_B_B = 0;
+wire [7:0] w_Result_Mem_Dout_B;
+reg [7:0] r_Result_Mem_Din_B = 0;
+reg [0:0] r_Result_Mem_We_B = 0;
 
-mem_result_image RESULT_IMAGE_R(
-    .clka(clk_100MHz),
-    .clkb(clk_100MHz),
-
-    .addra(r_Result_Image_Addr_A),
-    .douta(w_Result_Image_Dout_A_R),
-    .dina(r_Result_Image_Din_A_R),
-    .wea(r_Result_Image_We_A_R),
-
-    .addrb(r_Result_Image_Addr_B),
-    .doutb(w_Result_Image_Dout_B_R),
-    .dinb(r_Result_Image_Din_B_R),
-    .web(r_Result_Image_We_B_R)
-);
-
-mem_result_image RESULT_IMAGE_G(
-    .clka(clk_100MHz),
-    .clkb(clk_100MHz),
-
-    .addra(r_Result_Image_Addr_A),
-    .douta(w_Result_Image_Dout_A_G),
-    .dina(r_Result_Image_Din_A_G),
-    .wea(r_Result_Image_We_A_G),
-
-    .addrb(r_Result_Image_Addr_B),
-    .doutb(w_Result_Image_Dout_B_G),
-    .dinb(r_Result_Image_Din_B_G),
-    .web(r_Result_Image_We_B_G)
-);
-
-mem_result_image RESULT_IMAGE_B(
-    .clka(clk_100MHz),
-    .clkb(clk_100MHz),
-
-    .addra(r_Result_Image_Addr_A),
-    .douta(w_Result_Image_Dout_A_B),
-    .dina(r_Result_Image_Din_A_B),
-    .wea(r_Result_Image_We_A_B),
-
-    .addrb(r_Result_Image_Addr_B),
-    .doutb(w_Result_Image_Dout_B_B),
-    .dinb(r_Result_Image_Din_B_B),
-    .web(r_Result_Image_We_B_B)
+result_mem RESULT_MEM(
+    .i_clk_100MHz(clk_100MHz),
+    .i_Addr(r_Result_Mem_Addr),
+    .i_Din_R(r_Result_Mem_Din_R),
+    .i_Din_G(r_Result_Mem_Din_G),
+    .i_Din_B(r_Result_Mem_Din_B),
+    .i_We_R(r_Result_Mem_We_R),
+    .i_We_G(r_Result_Mem_We_G),
+    .i_We_B(r_Result_Mem_We_B),
+    .o_Dout_R(w_Result_Mem_Dout_R),
+    .o_Dout_G(w_Result_Mem_Dout_G),
+    .o_Dout_B(w_Result_Mem_Dout_B)
 );
 
 // controller
@@ -228,12 +187,9 @@ always @(posedge clk_100MHz) begin
 
     if (r_SM_Main != s_PROCESS)
     begin
-        if (r_Result_Image_We_A_R) r_Result_Image_We_A_R <= 1'b0;
-        if (r_Result_Image_We_A_G) r_Result_Image_We_A_G <= 1'b0;
-        if (r_Result_Image_We_A_B) r_Result_Image_We_A_B <= 1'b0;
-        if (r_Result_Image_We_B_R) r_Result_Image_We_B_R <= 1'b0;
-        if (r_Result_Image_We_B_G) r_Result_Image_We_B_G <= 1'b0;
-        if (r_Result_Image_We_B_B) r_Result_Image_We_B_B <= 1'b0;
+        if (r_Result_Mem_We_R) r_Result_Mem_We_R <= 1'b0;
+        if (r_Result_Mem_We_G) r_Result_Mem_We_G <= 1'b0;
+        if (r_Result_Mem_We_B) r_Result_Mem_We_B <= 1'b0;
     end
 
     case (r_SM_Main)
@@ -265,8 +221,7 @@ always @(posedge clk_100MHz) begin
                             r_Mem_Counter <= 0;
                             r_Source_Image_Addr_A <= 0;
                             r_Source_Image_Addr_B <= 0;
-                            r_Result_Image_Addr_A <= 0;
-                            r_Result_Image_Addr_B <= 0;
+                            r_Result_Mem_Addr <= 0;
 
                             r_Tx_Byte <= 8'd3;
                             r_Tx_DV <= 1'b1;
@@ -324,13 +279,13 @@ always @(posedge clk_100MHz) begin
             end
        s_PROCESS:
             begin
-                r_Result_Image_Din_A_R <= w_Source_Image_Dout_A_R;
-                r_Result_Image_Din_A_G <= w_Source_Image_Dout_A_G;
-                r_Result_Image_Din_A_B <= w_Source_Image_Dout_A_B;
+                r_Result_Mem_Din_R <= w_Source_Image_Dout_A_R;
+                r_Result_Mem_Din_G <= w_Source_Image_Dout_A_G;
+                r_Result_Mem_Din_B <= w_Source_Image_Dout_A_B;
 
-                r_Result_Image_We_A_R <= 1'b1;
-                r_Result_Image_We_A_G <= 1'b1;
-                r_Result_Image_We_A_B <= 1'b1;
+                r_Result_Mem_We_R <= 1'b1;
+                r_Result_Mem_We_G <= 1'b1;
+                r_Result_Mem_We_B <= 1'b1;
 
                 r_Source_Image_Addr_A <= r_Source_Image_Addr_A + 1;
 
@@ -345,19 +300,19 @@ always @(posedge clk_100MHz) begin
                 if (r_Mem_Counter == 99)
                     begin
                         r_Mem_Counter <= 0;
-                        r_Result_Image_Addr_A <= r_Result_Image_Addr_A + 1 + 40;
+                        r_Result_Mem_Addr <= r_Result_Mem_Addr + 1 + 40;
                     end
                 else
                     begin
                         r_Mem_Counter <= r_Mem_Counter+1;
-                        r_Result_Image_Addr_A <= r_Result_Image_Addr_A + 1;
+                        r_Result_Mem_Addr <= r_Result_Mem_Addr + 1;
                     end
             end
         s_SET_SEND_ROW_NUMBER:
             begin
                 if (w_Rx_Dv)
                     begin
-                        r_Result_Image_Addr_A <= 140 * w_Rx_Byte;
+                        r_Result_Mem_Addr <= 140 * w_Rx_Byte;
                         r_SM_Main <= s_SEND_ROW;
                         r_Color <= 0;
                         r_Mem_Counter <= 0;
@@ -370,28 +325,28 @@ always @(posedge clk_100MHz) begin
                         case (r_Color)
                             0:
                             begin
-                                r_Tx_Byte <= w_Result_Image_Dout_A_R;
+                                r_Tx_Byte <= w_Result_Mem_Dout_R;
                                 r_Tx_DV <= 1'b1;
                                 r_Tx_Delay <= 8'b111;
                                 r_Color <= 1;
                             end
                             1:
                             begin
-                                r_Tx_Byte <= w_Result_Image_Dout_A_G;
+                                r_Tx_Byte <= w_Result_Mem_Dout_G;
                                 r_Tx_DV <= 1'b1;
                                 r_Tx_Delay <= 8'b111;
                                 r_Color <= 2;
                             end
                             2:
                             begin
-                                r_Tx_Byte <= w_Result_Image_Dout_A_B;
+                                r_Tx_Byte <= w_Result_Mem_Dout_B;
                                 r_Tx_DV <= 1'b1;
                                 r_Tx_Delay <= 8'b111;
                                 r_Color <= 0;
 
                                 if (r_Mem_Counter == 139) r_SM_Main = s_IDLE;
                                 r_Mem_Counter <= r_Mem_Counter+1;
-                                r_Result_Image_Addr_A <= r_Result_Image_Addr_A+1;
+                                r_Result_Mem_Addr <= r_Result_Mem_Addr+1;
                             end
                         endcase
                     end

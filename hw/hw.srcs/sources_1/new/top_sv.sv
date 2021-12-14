@@ -1,5 +1,8 @@
 `timescale 1ns / 1ns
 
+integer color;
+`define LOOP_COLOR for (color=0;color<3;color=color+1)
+
 module top(clk, btnC, led, RsRx, RsTx);
 
 input clk;
@@ -123,31 +126,16 @@ mem_source_image SOURCE_IMAGE_B(
 );
 
 reg [15:0] r_Result_Mem_Addr = 0;
-
-wire [7:0] w_Result_Mem_Dout_R;
-reg [7:0] r_Result_Mem_Din_R = 0;
-reg [0:0] r_Result_Mem_We_R = 0;
-
-wire [7:0] w_Result_Mem_Dout_G;
-reg [7:0] r_Result_Mem_Din_G = 0;
-reg [0:0] r_Result_Mem_We_G = 0;
-
-wire [7:0] w_Result_Mem_Dout_B;
-reg [7:0] r_Result_Mem_Din_B = 0;
-reg [0:0] r_Result_Mem_We_B = 0;
+wire [1:0][7:0] w_Result_Mem_Dout = 0;
+reg [1:0][7:0] r_Result_Mem_Din = 0;
+reg [1:0][0:0] r_Result_Mem_We = 0;
 
 result_mem RESULT_MEM(
     .i_clk_100MHz(clk_100MHz),
     .i_Addr(r_Result_Mem_Addr),
-    .i_Din_R(r_Result_Mem_Din_R),
-    .i_Din_G(r_Result_Mem_Din_G),
-    .i_Din_B(r_Result_Mem_Din_B),
-    .i_We_R(r_Result_Mem_We_R),
-    .i_We_G(r_Result_Mem_We_G),
-    .i_We_B(r_Result_Mem_We_B),
-    .o_Dout_R(w_Result_Mem_Dout_R),
-    .o_Dout_G(w_Result_Mem_Dout_G),
-    .o_Dout_B(w_Result_Mem_Dout_B)
+    .i_Din(r_Result_Mem_Din),
+    .i_We(r_Result_Mem_We),
+    .o_Dout(w_Result_Mem_Dout)
 );
 
 // controller
@@ -186,11 +174,7 @@ always @(posedge clk_100MHz) begin
     if (r_Tx_Delay != 0) r_Tx_Delay <= r_Tx_Delay-1;
 
     if (r_SM_Main != s_PROCESS)
-    begin
-        if (r_Result_Mem_We_R) r_Result_Mem_We_R <= 1'b0;
-        if (r_Result_Mem_We_G) r_Result_Mem_We_G <= 1'b0;
-        if (r_Result_Mem_We_B) r_Result_Mem_We_B <= 1'b0;
-    end
+        `LOOP_COLOR r_Result_Mem_We[color] <= 1'b0;
 
     case (r_SM_Main)
         s_IDLE:
@@ -279,13 +263,11 @@ always @(posedge clk_100MHz) begin
             end
        s_PROCESS:
             begin
-                r_Result_Mem_Din_R <= w_Source_Image_Dout_A_R;
-                r_Result_Mem_Din_G <= w_Source_Image_Dout_A_G;
-                r_Result_Mem_Din_B <= w_Source_Image_Dout_A_B;
+                r_Result_Mem_Din[0] <= w_Source_Image_Dout_A_R;
+                r_Result_Mem_Din[1] <= w_Source_Image_Dout_A_G;
+                r_Result_Mem_Din[2] <= w_Source_Image_Dout_A_B;
 
-                r_Result_Mem_We_R <= 1'b1;
-                r_Result_Mem_We_G <= 1'b1;
-                r_Result_Mem_We_B <= 1'b1;
+                `LOOP_COLOR r_Result_Mem_We[color] <= 1'b1;
 
                 r_Source_Image_Addr_A <= r_Source_Image_Addr_A + 1;
 
@@ -325,21 +307,21 @@ always @(posedge clk_100MHz) begin
                         case (r_Color)
                             0:
                             begin
-                                r_Tx_Byte <= w_Result_Mem_Dout_R;
+                                r_Tx_Byte <= w_Result_Mem_Dout[0];
                                 r_Tx_DV <= 1'b1;
                                 r_Tx_Delay <= 8'b111;
                                 r_Color <= 1;
                             end
                             1:
                             begin
-                                r_Tx_Byte <= w_Result_Mem_Dout_G;
+                                r_Tx_Byte <= w_Result_Mem_Dout[1];
                                 r_Tx_DV <= 1'b1;
                                 r_Tx_Delay <= 8'b111;
                                 r_Color <= 2;
                             end
                             2:
                             begin
-                                r_Tx_Byte <= w_Result_Mem_Dout_B;
+                                r_Tx_Byte <= w_Result_Mem_Dout[2];
                                 r_Tx_DV <= 1'b1;
                                 r_Tx_Delay <= 8'b111;
                                 r_Color <= 0;

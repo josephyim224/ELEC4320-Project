@@ -23,10 +23,10 @@
 
 module source_mem(
     input i_clk_100MHz,
-    input [1:0][13:0] i_Addr,
-    input [1:0][1:0][7:0] i_Din,
-    input [1:0][1:0][0:0] i_We,
-    output [1:0][1:0][7:0] o_Dout
+    input [3:0][13:0] i_Addr,
+    input [3:0][2:0][7:0] i_Din,
+    input [3:0][2:0][0:0] i_We,
+    output [3:0][2:0][7:0] o_Dout
 );
 
 generate

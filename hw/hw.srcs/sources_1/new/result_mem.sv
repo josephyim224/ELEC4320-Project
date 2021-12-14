@@ -23,9 +23,9 @@
 module result_mem(
     input i_clk_100MHz,
     input [15:0] i_Addr,
-    input [1:0][7:0] i_Din,
-    input [1:0][0:0] i_We,
-    output [1:0][7:0] o_Dout
+    input [2:0][7:0] i_Din,
+    input [2:0][0:0] i_We,
+    output [2:0][7:0] o_Dout
 );
 
 generate

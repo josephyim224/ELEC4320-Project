@@ -19,10 +19,20 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
 module fsm_tb();
 
-`include "fsm_header.vh"
+    parameter s_IDLE = 3'b000;
+    parameter s_SET_SCALE_FACTOR = 3'b001;
+    parameter s_SET_WRITE_ROW_NUMBER = 3'b010;
+    parameter s_SET_WRITE_ROW = 3'b011;
+    parameter s_PROCESS = 3'b100;
+    parameter s_SET_SEND_ROW_NUMBER = 3'b101;
+    parameter s_SEND_ROW  = 3'b110;
+
+    parameter c_SET_SCALE_FACTOR = 8'd1;
+    parameter c_SET_WRITE_ROW_NUMBER = 8'd2;
+    parameter c_PROCESS = 8'd3;
+    parameter c_SET_SEND_ROW_NUMBER = 8'd4;
 
 `define FSM_ASSERT_STATE(EXPECTED) if (w_SM_Main != EXPECTED) begin $display("Expecting %d but got %d instead", EXPECTED, w_SM_Main); $finish(); end
 `define WAIT_CLK #1 clk = 1; #1 clk = 0;
@@ -42,7 +52,8 @@ fsm FSM(
     .i_Rx_Dv(r_Rx_Dv),
     .i_Rx_Byte(r_Rx_Byte),
     .i_Tx_Active(0),
-    .o_SM_Main(w_SM_Main)
+    .o_SM_Main(w_SM_Main),
+    .i_Source_Mem_Dout({{200,200,200},{200,200,200},{200,200,200},{250,250,250}})
 );
 
 initial begin
@@ -81,7 +92,7 @@ initial begin
     $display("check process");
     `TX_AND_WAIT_CLK(c_PROCESS)
     `FSM_ASSERT_STATE(s_PROCESS)
-    for (fsm_i=0; fsm_i<140*140;fsm_i=fsm_i+1) begin
+    for (fsm_i=0; fsm_i<140*50;fsm_i=fsm_i+1) begin
         `WAIT_CLK
     end
     `FSM_ASSERT_STATE(s_IDLE)
@@ -93,7 +104,7 @@ initial begin
     `TX_AND_WAIT_CLK(8'd1)
     `FSM_ASSERT_STATE(s_SEND_ROW);
 
-    for (fsm_i=0; fsm_i<140*140;fsm_i=fsm_i+1) begin
+    for (fsm_i=0; fsm_i<140*40;fsm_i=fsm_i+1) begin
         `WAIT_CLK
     end
     

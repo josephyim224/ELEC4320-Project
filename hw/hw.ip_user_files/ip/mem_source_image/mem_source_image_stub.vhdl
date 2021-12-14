@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
--- Date        : Tue Dec 14 13:58:50 2021
+-- Date        : Tue Dec 14 23:40:34 2021
 -- Host        : T480s running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode synth_stub
 --               c:/Users/josep/GitHub/ELEC4320-Project/hw/hw.gen/sources_1/ip/mem_source_image/mem_source_image_stub.vhdl

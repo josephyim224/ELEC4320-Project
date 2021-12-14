@@ -56,10 +56,10 @@ breathing_led BREATHING_LED(
 // --------------------------------------------------------------------------------------
 
 // [channel][color][bits]
-wire [1:0][13:0] w_Source_Mem_Addr;
-wire [1:0][1:0][7:0] w_Source_Mem_Din;
-wire [1:0][1:0][0:0] w_Source_Mem_We;
-wire [1:0][1:0][7:0] w_Source_Mem_Dout;
+wire [3:0][13:0] w_Source_Mem_Addr;
+wire [3:0][2:0][7:0] w_Source_Mem_Din;
+wire [3:0][2:0][0:0] w_Source_Mem_We;
+wire [3:0][2:0][7:0] w_Source_Mem_Dout;
 
 source_mem SOURCE_MEM(
     .i_clk_100MHz(clk_100MHz),
@@ -70,9 +70,9 @@ source_mem SOURCE_MEM(
 );
 
 wire [15:0] w_Result_Mem_Addr;
-wire [1:0][7:0] w_Result_Mem_Din;
-wire [1:0][0:0] w_Result_Mem_We;
-wire [1:0][7:0] w_Result_Mem_Dout;
+wire [2:0][7:0] w_Result_Mem_Din;
+wire [2:0][0:0] w_Result_Mem_We;
+wire [2:0][7:0] w_Result_Mem_Dout;
 
 result_mem RESULT_MEM(
     .i_clk_100MHz(clk_100MHz),

@@ -64,11 +64,16 @@ void draw() {
   draw_title(360, 200, "read");
   draw_button(360, 240, "1 row");
   draw_button(360, 280, "all");
+  
+  // print data
+  draw_button(480, 240, "R");
+  draw_button(480, 280, "G");
+  draw_button(480, 320, "B");
 
   // serial
   while (serial != null && serial.available() > 0) {
     byte inByte = byte(serial.read());
-    println(inByte);
+    print(inByte);
 
     if (is_read) {
       result_image.pixels[140*read_y+read_x] = set_pixel(result_image.pixels[140*read_y+read_x], inByte, read_c);
@@ -137,6 +142,7 @@ void mousePressed() {
 
     uart_write(byte(2));
     uart_write(byte(0));
+    
     for (int i = 0; i < 100; ++i) {
       byte[] pixel = pixel_to_bytes(src_image.pixels[i]);
       uart_write(pixel[0]);
@@ -200,5 +206,38 @@ void mousePressed() {
     uart_write(byte(0));
 
     println();
+  }
+  
+  // print data
+  if (is_in_button(480,240)){
+    println("memory_initialization_radix=10;\nmemory_initialization_vector=\n");
+    for (int y = 0; y < 100; ++y) {
+      for (int x = 0; x < 100; ++x) {
+        byte[] pixel = pixel_to_bytes(src_image.pixels[100*y+x]);
+        print(pixel[0]);
+        print(",");
+      }
+    }
+    println(";");
+  } else if (is_in_button(480,280)){
+    println("memory_initialization_radix=10;\nmemory_initialization_vector=\n");
+    for (int y = 0; y < 100; ++y) {
+      for (int x = 0; x < 100; ++x) {
+        byte[] pixel = pixel_to_bytes(src_image.pixels[100*y+x]);
+        print(pixel[1]);
+        print(",");
+      }
+    }
+    println(";");
+  } else if (is_in_button(480,320)){
+    println("memory_initialization_radix=10;\nmemory_initialization_vector=\n");
+    for (int y = 0; y < 100; ++y) {
+      for (int x = 0; x < 100; ++x) {
+        byte[] pixel = pixel_to_bytes(src_image.pixels[100*y+x]);
+        print(pixel[2]);
+        print(",");
+      }
+    }
+    println(";");
   }
 }

@@ -1,18 +1,13 @@
 `timescale 1ns / 1ns
 
 module testbench();
-    
-reg clk;
-reg [9:0] IOs;
-wire beep;
+reg clock = 0;
+reg d_x = 1;
+reg d_y = 1;
+wire val_;
+interpolate interpolate(.clk(clock), .dx(d_x), .dy(d_y), .val(val_));
 
-top TOP(.clk(clk), .btnC(), .led(), .RsRx(), .RsTx());
+initial $display("startt\n");
 
-always 
-begin
-    clk= 1; #1; 
-    clk= 0; #1;
-end
-
+always #1 clock = ~clock;
 endmodule
-

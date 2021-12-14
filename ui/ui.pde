@@ -74,6 +74,7 @@ void draw() {
   while (serial != null && serial.available() > 0) {
     byte inByte = byte(serial.read());
     print(inByte);
+    print(",");
 
     if (is_read) {
       result_image.pixels[140*read_y+read_x] = set_pixel(result_image.pixels[140*read_y+read_x], inByte, read_c);

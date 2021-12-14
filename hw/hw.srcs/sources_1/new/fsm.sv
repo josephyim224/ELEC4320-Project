@@ -188,7 +188,7 @@ always @(posedge i_clk_100MHz) begin
 
                 // calculate sx0, sy0
                 sx0 <= sx / 100;
-                sy0 <= dy[1] * 100 / r_Result_Dim;
+                sy0 <= sy - sy % 100;
                 rx[0] <= sx % 100;
                 ry[0] <= sy % 100;
 
@@ -196,6 +196,10 @@ always @(posedge i_clk_100MHz) begin
                 dy[2] <= dy[1];
 
                 // read source memory
+                //o_Source_Mem_Addr[0] <= 100 * dy[2] + dx[2];
+                //o_Source_Mem_Addr[1] <= 100 * dy[2] + dx[2];
+                //o_Source_Mem_Addr[2] <= 100 * dy[2] + dx[2];
+                //o_Source_Mem_Addr[3] <= 100 * dy[2] + dx[2];
                 o_Source_Mem_Addr[0] <= sy0 + sx0;
                 o_Source_Mem_Addr[1] <= sy0 + sx0+1;
                 o_Source_Mem_Addr[2] <= sy0+100 + sx0;
@@ -210,8 +214,8 @@ always @(posedge i_clk_100MHz) begin
 
                 // compute horizontal interpolation
                 `LOOP_COLOR begin
-                    x0[color] <= i_Source_Mem_Dout[0][color] * rxi + i_Source_Mem_Dout[1][color] * rx[1];
-                    x1[color] <= i_Source_Mem_Dout[2][color] * rxi + i_Source_Mem_Dout[3][color] * rx[1];
+                    x0[color] <= i_Source_Mem_Dout[0][color] * rxi + i_Source_Mem_Dout[0][color] * rx[1];
+                    x1[color] <= i_Source_Mem_Dout[0][color] * rxi + i_Source_Mem_Dout[0][color] * rx[1];
                 end
 
                 ry[2] <= ry[1];

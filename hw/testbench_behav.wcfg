@@ -5,72 +5,88 @@
    <db_ref_list>
       <db_ref path="testbench_behav.wdb" id="1">
          <top_modules>
+            <top_module name="\$unit_fsm_sv " />
             <top_module name="glbl" />
             <top_module name="testbench" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="22178700fs"></ZoomStartTime>
-      <ZoomEndTime time="277778701fs"></ZoomEndTime>
-      <Cursor1Time time="235178700fs"></Cursor1Time>
+      <ZoomStartTime time="67671672fs"></ZoomStartTime>
+      <ZoomEndTime time="79351673fs"></ZoomEndTime>
+      <Cursor1Time time="321914fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="83"></ValueColumnWidth>
+      <ValueColumnWidth column_width="78"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="13" />
-   <wvobject fp_name="/testbench/clk" type="logic">
+   <WVObjectSize size="17" />
+   <wvobject fp_name="/testbench/FSM_TB/w_SM_Main" type="array">
+      <obj_property name="ElementShortName">w_SM_Main[2:0]</obj_property>
+      <obj_property name="ObjectShortName">w_SM_Main[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/FSM_TB/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/IOs" type="array">
-      <obj_property name="ElementShortName">IOs[9:0]</obj_property>
-      <obj_property name="ObjectShortName">IOs[9:0]</obj_property>
+   <wvobject fp_name="/testbench/FSM_TB/r_Rx_Dv" type="logic">
+      <obj_property name="ElementShortName">r_Rx_Dv</obj_property>
+      <obj_property name="ObjectShortName">r_Rx_Dv</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/beep" type="logic">
-      <obj_property name="ElementShortName">beep</obj_property>
-      <obj_property name="ObjectShortName">beep</obj_property>
+   <wvobject fp_name="/testbench/FSM_TB/r_Rx_Byte" type="array">
+      <obj_property name="ElementShortName">r_Rx_Byte[7:0]</obj_property>
+      <obj_property name="ObjectShortName">r_Rx_Byte[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/TOP/clk" type="logic">
-      <obj_property name="ElementShortName">clk</obj_property>
-      <obj_property name="ObjectShortName">clk</obj_property>
+   <wvobject fp_name="/testbench/FSM_TB/w_Tx_Active" type="logic">
+      <obj_property name="ElementShortName">w_Tx_Active</obj_property>
+      <obj_property name="ObjectShortName">w_Tx_Active</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/TOP/btnC" type="logic">
-      <obj_property name="ElementShortName">btnC</obj_property>
-      <obj_property name="ObjectShortName">btnC</obj_property>
+   <wvobject fp_name="/testbench/FSM_TB/fsm_i" type="array">
+      <obj_property name="ElementShortName">fsm_i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fsm_i[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/TOP/RsRx" type="logic">
-      <obj_property name="ElementShortName">RsRx</obj_property>
-      <obj_property name="ObjectShortName">RsRx</obj_property>
+   <wvobject fp_name="/testbench/FSM_TB/s_IDLE" type="array">
+      <obj_property name="ElementShortName">s_IDLE[2:0]</obj_property>
+      <obj_property name="ObjectShortName">s_IDLE[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/TOP/RsTx" type="logic">
-      <obj_property name="ElementShortName">RsTx</obj_property>
-      <obj_property name="ObjectShortName">RsTx</obj_property>
+   <wvobject fp_name="/testbench/FSM_TB/s_SET_SCALE_FACTOR" type="array">
+      <obj_property name="ElementShortName">s_SET_SCALE_FACTOR[2:0]</obj_property>
+      <obj_property name="ObjectShortName">s_SET_SCALE_FACTOR[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/TOP/led" type="array">
-      <obj_property name="ElementShortName">led[0:15]</obj_property>
-      <obj_property name="ObjectShortName">led[0:15]</obj_property>
+   <wvobject fp_name="/testbench/FSM_TB/s_SET_WRITE_ROW_NUMBER" type="array">
+      <obj_property name="ElementShortName">s_SET_WRITE_ROW_NUMBER[2:0]</obj_property>
+      <obj_property name="ObjectShortName">s_SET_WRITE_ROW_NUMBER[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/TOP/r_Tx_DV" type="logic">
-      <obj_property name="ElementShortName">r_Tx_DV</obj_property>
-      <obj_property name="ObjectShortName">r_Tx_DV</obj_property>
+   <wvobject fp_name="/testbench/FSM_TB/s_SET_WRITE_ROW" type="array">
+      <obj_property name="ElementShortName">s_SET_WRITE_ROW[2:0]</obj_property>
+      <obj_property name="ObjectShortName">s_SET_WRITE_ROW[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/TOP/w_Tx_Done" type="logic">
-      <obj_property name="ElementShortName">w_Tx_Done</obj_property>
-      <obj_property name="ObjectShortName">w_Tx_Done</obj_property>
+   <wvobject fp_name="/testbench/FSM_TB/s_PROCESS" type="array">
+      <obj_property name="ElementShortName">s_PROCESS[2:0]</obj_property>
+      <obj_property name="ObjectShortName">s_PROCESS[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/TOP/r_Tx_Byte" type="array">
-      <obj_property name="ElementShortName">r_Tx_Byte[7:0]</obj_property>
-      <obj_property name="ObjectShortName">r_Tx_Byte[7:0]</obj_property>
-      <obj_property name="Radix">ASCIIRADIX</obj_property>
+   <wvobject fp_name="/testbench/FSM_TB/s_SET_SEND_ROW_NUMBER" type="array">
+      <obj_property name="ElementShortName">s_SET_SEND_ROW_NUMBER[2:0]</obj_property>
+      <obj_property name="ObjectShortName">s_SET_SEND_ROW_NUMBER[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/TOP/clk_100MHz" type="logic">
-      <obj_property name="ElementShortName">clk_100MHz</obj_property>
-      <obj_property name="ObjectShortName">clk_100MHz</obj_property>
+   <wvobject fp_name="/testbench/FSM_TB/s_SEND_ROW" type="array">
+      <obj_property name="ElementShortName">s_SEND_ROW[2:0]</obj_property>
+      <obj_property name="ObjectShortName">s_SEND_ROW[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/testbench/TOP/counter" type="array">
-      <obj_property name="ElementShortName">counter[0:23]</obj_property>
-      <obj_property name="ObjectShortName">counter[0:23]</obj_property>
+   <wvobject fp_name="/testbench/FSM_TB/c_SET_SCALE_FACTOR" type="array">
+      <obj_property name="ElementShortName">c_SET_SCALE_FACTOR[7:0]</obj_property>
+      <obj_property name="ObjectShortName">c_SET_SCALE_FACTOR[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/FSM_TB/c_SET_WRITE_ROW_NUMBER" type="array">
+      <obj_property name="ElementShortName">c_SET_WRITE_ROW_NUMBER[7:0]</obj_property>
+      <obj_property name="ObjectShortName">c_SET_WRITE_ROW_NUMBER[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/FSM_TB/c_PROCESS" type="array">
+      <obj_property name="ElementShortName">c_PROCESS[7:0]</obj_property>
+      <obj_property name="ObjectShortName">c_PROCESS[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/testbench/FSM_TB/c_SET_SEND_ROW_NUMBER" type="array">
+      <obj_property name="ElementShortName">c_SET_SEND_ROW_NUMBER[7:0]</obj_property>
+      <obj_property name="ObjectShortName">c_SET_SEND_ROW_NUMBER[7:0]</obj_property>
    </wvobject>
 </wave_config>

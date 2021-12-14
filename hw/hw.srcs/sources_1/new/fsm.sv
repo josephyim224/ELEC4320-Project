@@ -42,22 +42,20 @@ module fsm(
     input i_Tx_Active,
 
     input i_Rx_Dv,
-    input [7:0] i_Rx_Byte
+    input [7:0] i_Rx_Byte,
+    
+    output [2:0] o_SM_Main
 );
 
-parameter s_IDLE = 3'b000;
-parameter s_SET_SCALE_FACTOR = 3'b001;
-parameter s_SET_WRITE_ROW_NUMBER = 3'b010;
-parameter s_SET_WRITE_ROW = 3'b011;
-parameter s_PROCESS = 3'b100;
-parameter s_SET_SEND_ROW_NUMBER = 3'b101;
-parameter s_SEND_ROW  = 3'b110;
+`include "fsm_header.vh"
 
 reg [2:0] r_SM_Main = 0;
 reg [1:0] r_Scale_Factor = 0;
 reg [1:0] r_Color = 0;
 reg [15:0] r_Mem_Counter = 0;
 reg [2:0] r_Tx_Delay = 0;
+
+assign o_SM_Main = r_SM_Main;
 
 assign o_led[3] = r_SM_Main == s_IDLE;
 assign o_led[4] = r_SM_Main == s_SET_SCALE_FACTOR;
@@ -91,19 +89,19 @@ always @(posedge i_clk_100MHz) begin
                         o_Tx_Byte <= 8'd0;
                         r_Tx_DV <= r_Tx_DV+1;
                     end
-                    8'd1:
+                    c_SET_SCALE_FACTOR:
                     begin
                         r_SM_Main <= s_SET_SCALE_FACTOR;
                         o_Tx_Byte <= 8'd1;
                         r_Tx_DV <= r_Tx_DV+1;
                     end
-                    8'd2: 
+                    c_SET_WRITE_ROW_NUMBER: 
                     begin
                         r_SM_Main <= s_SET_WRITE_ROW_NUMBER;
                         o_Tx_Byte <= 8'd2;
                         r_Tx_DV <= r_Tx_DV+1;
                     end
-                    8'd3:
+                    c_PROCESS:
                     begin
                         r_SM_Main <= s_PROCESS;
 
@@ -115,7 +113,7 @@ always @(posedge i_clk_100MHz) begin
                         o_Tx_Byte <= 8'd3;
                         r_Tx_DV <= r_Tx_DV+1;
                     end
-                    8'd4: r_SM_Main <= s_SET_SEND_ROW_NUMBER;
+                    c_SET_SEND_ROW_NUMBER: r_SM_Main <= s_SET_SEND_ROW_NUMBER;
                 endcase
             end
         s_SET_SCALE_FACTOR:

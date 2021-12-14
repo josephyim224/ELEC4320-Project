@@ -84,88 +84,65 @@ always @(posedge i_clk_100MHz) begin
 
     case (r_SM_Main)
         s_IDLE:
-            begin
-                if (i_Rx_Dv)
-                    case (i_Rx_Byte)
-                        8'd0:
-                        begin
-                            o_Tx_Byte <= 8'd0;
-                            r_Tx_DV <= r_Tx_DV+1;
-                        end
-                        8'd1:
-                        begin
-                            r_SM_Main <= s_SET_SCALE_FACTOR;
-                            o_Tx_Byte <= 8'd1;
-                            r_Tx_DV <= r_Tx_DV+1;
-                        end
-                        8'd2: 
-                        begin
-                            r_SM_Main <= s_SET_WRITE_ROW_NUMBER;
-                            o_Tx_Byte <= 8'd2;
-                            r_Tx_DV <= r_Tx_DV+1;
-                        end
-                        8'd3:
-                        begin
-                            r_SM_Main <= s_PROCESS;
-
-                            r_Mem_Counter <= 0;
-                            o_Source_Mem_Addr[0] <= 0;
-                            o_Source_Mem_Addr[1] <= 0;
-                            o_Result_Mem_Addr <= 0;
-
-                            o_Tx_Byte <= 8'd3;
-                            r_Tx_DV <= r_Tx_DV+1;
-                        end
-                        8'd4: r_SM_Main <= s_SET_SEND_ROW_NUMBER;
-                    endcase
-             end
-        s_SET_SCALE_FACTOR:
-            begin
-                if (i_Rx_Dv)
+            if (i_Rx_Dv) begin
+                case (i_Rx_Byte)
+                    8'd0:
                     begin
-                        r_Scale_Factor <= i_Rx_Byte[1:0];
-                        r_SM_Main <= s_IDLE;
+                        o_Tx_Byte <= 8'd0;
+                        r_Tx_DV <= r_Tx_DV+1;
                     end
+                    8'd1:
+                    begin
+                        r_SM_Main <= s_SET_SCALE_FACTOR;
+                        o_Tx_Byte <= 8'd1;
+                        r_Tx_DV <= r_Tx_DV+1;
+                    end
+                    8'd2: 
+                    begin
+                        r_SM_Main <= s_SET_WRITE_ROW_NUMBER;
+                        o_Tx_Byte <= 8'd2;
+                        r_Tx_DV <= r_Tx_DV+1;
+                    end
+                    8'd3:
+                    begin
+                        r_SM_Main <= s_PROCESS;
+
+                        r_Mem_Counter <= 0;
+                        o_Source_Mem_Addr[0] <= 0;
+                        o_Source_Mem_Addr[1] <= 0;
+                        o_Result_Mem_Addr <= 0;
+
+                        o_Tx_Byte <= 8'd3;
+                        r_Tx_DV <= r_Tx_DV+1;
+                    end
+                    8'd4: r_SM_Main <= s_SET_SEND_ROW_NUMBER;
+                endcase
+            end
+        s_SET_SCALE_FACTOR:
+            if (i_Rx_Dv) begin
+                r_Scale_Factor <= i_Rx_Byte[1:0];
+                r_SM_Main <= s_IDLE;
             end
         s_SET_WRITE_ROW_NUMBER:
-            begin
-                if (i_Rx_Dv)
-                    begin
-                        o_Source_Mem_Addr[0] <= 100 * i_Rx_Byte;
-                        r_Color <= 0;
-                        r_Mem_Counter <= 0;
-                        r_SM_Main <= s_SET_WRITE_ROW;
-                    end
+            if (i_Rx_Dv) begin
+                o_Source_Mem_Addr[0] <= 100 * i_Rx_Byte;
+                r_Color <= 0;
+                r_Mem_Counter <= 0;
+                r_SM_Main <= s_SET_WRITE_ROW;
             end
        s_SET_WRITE_ROW:
-            begin
-                if (i_Rx_Dv)
-                    begin
-                        case (r_Color)
-                            0:
-                            begin
-                                o_Source_Mem_We[0][0] <= 1'b1;
-                                o_Source_Mem_Din[0][0] <= i_Rx_Byte | 8'b0;
-                                r_Color <= 1;
-                            end
-                            1:
-                            begin
-                                o_Source_Mem_We[0][1] <= 1'b1;
-                                o_Source_Mem_Din[0][1] <= i_Rx_Byte | 8'b0;
-                                r_Color <= 2;
-                            end
-                            2:
-                            begin
-                                o_Source_Mem_We[0][2] <= 1'b1;
-                                o_Source_Mem_Din[0][2] <= i_Rx_Byte | 8'b0;;
-                                r_Color <= 0;
+            if (i_Rx_Dv) begin
+                `LOOP_COLOR if (r_Color == color) begin
+                    o_Source_Mem_We[0][color] <= 1'b1;
+                    o_Source_Mem_Din[0][color] <= i_Rx_Byte | 8'b0;
+                    r_Color <= (r_Color+1)%3;
+                end
 
-                                if (r_Mem_Counter == 99) r_SM_Main = s_IDLE;
-                                r_Mem_Counter <= r_Mem_Counter+1;
-                                o_Source_Mem_Addr[0] <= o_Source_Mem_Addr[0]+1;
-                            end
-                        endcase
-                    end
+                if (r_Color==2) begin
+                    if (r_Mem_Counter == 99) r_SM_Main = s_IDLE;
+                    r_Mem_Counter <= r_Mem_Counter+1;
+                    o_Source_Mem_Addr[0] <= o_Source_Mem_Addr[0]+1;
+                end
             end
        s_PROCESS:
             begin
@@ -177,67 +154,42 @@ always @(posedge i_clk_100MHz) begin
 
                 o_Source_Mem_Addr[0] <= o_Source_Mem_Addr[0] + 1;
 
-                if (o_Source_Mem_Addr[0] == 10000) 
-                begin
+                if (o_Source_Mem_Addr[0] == 10000) begin
                     r_SM_Main = s_IDLE;
 
                     o_Tx_Byte <= 8'd4;
                     r_Tx_DV <= r_Tx_DV+1;
                 end
 
-                if (r_Mem_Counter == 99)
-                    begin
-                        r_Mem_Counter <= 0;
-                        o_Result_Mem_Addr <= o_Result_Mem_Addr + 1 + 40;
-                    end
-                else
-                    begin
-                        r_Mem_Counter <= r_Mem_Counter+1;
-                        o_Result_Mem_Addr <= o_Result_Mem_Addr + 1;
-                    end
+                if (r_Mem_Counter == 99) begin
+                    r_Mem_Counter <= 0;
+                    o_Result_Mem_Addr <= o_Result_Mem_Addr + 1 + 40;
+                end else begin
+                    r_Mem_Counter <= r_Mem_Counter+1;
+                    o_Result_Mem_Addr <= o_Result_Mem_Addr + 1;
+                end
             end
         s_SET_SEND_ROW_NUMBER:
-            begin
-                if (i_Rx_Dv)
-                    begin
-                        o_Result_Mem_Addr <= 140 * i_Rx_Byte;
-                        r_SM_Main <= s_SEND_ROW;
-                        r_Color <= 0;
-                        r_Mem_Counter <= 0;
-                    end
+            if (i_Rx_Dv) begin
+                o_Result_Mem_Addr <= 140 * i_Rx_Byte;
+                r_SM_Main <= s_SEND_ROW;
+                r_Color <= 0;
+                r_Mem_Counter <= 0;
             end
         s_SEND_ROW:
-            begin
-                if (!i_Tx_Active && r_Tx_Delay == 0)
-                    begin
-                        case (r_Color)
-                            0:
-                            begin
-                                o_Tx_Byte <= i_Result_Mem_Dout[0];
-                                r_Tx_DV <= r_Tx_DV+1;
-                                r_Tx_Delay <= 8'b111;
-                                r_Color <= 1;
-                            end
-                            1:
-                            begin
-                                o_Tx_Byte <= i_Result_Mem_Dout[1];
-                                r_Tx_DV <= r_Tx_DV+1;
-                                r_Tx_Delay <= 8'b111;
-                                r_Color <= 2;
-                            end
-                            2:
-                            begin
-                                o_Tx_Byte <= i_Result_Mem_Dout[2];
-                                r_Tx_DV <= r_Tx_DV+1;
-                                r_Tx_Delay <= 8'b111;
-                                r_Color <= 0;
+            if (!i_Tx_Active && r_Tx_Delay == 0) begin
+                 `LOOP_COLOR if (r_Color == color) begin
+                     o_Tx_Byte <= i_Result_Mem_Dout[color];
+                     r_Tx_DV <= r_Tx_DV+1;
+                     r_Tx_Delay <= 8'b111;
+                     r_Color <= (r_Color+1)%3;
+                 end
 
-                                if (r_Mem_Counter == 139) r_SM_Main = s_IDLE;
-                                r_Mem_Counter <= r_Mem_Counter+1;
-                                o_Result_Mem_Addr <= o_Result_Mem_Addr+1;
-                            end
-                        endcase
-                    end
+                 if (r_Color==2) begin
+                     if (r_Mem_Counter == 139) r_SM_Main = s_IDLE;
+                     r_Mem_Counter <= r_Mem_Counter+1;
+                     o_Result_Mem_Addr <= o_Result_Mem_Addr+1;
+                 end
             end
     endcase
 end

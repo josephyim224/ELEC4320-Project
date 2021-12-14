@@ -70,103 +70,13 @@ reg [1:0][1:0][7:0] r_Source_Mem_Din = 0;
 reg [1:0][1:0][0:0] r_Source_Mem_We = 0;
 wire [1:0][1:0][7:0] w_Source_Mem_Dout;
 
-mem_source_image SOURCE_IMAGE_A_R(
-    .clka(clk_100MHz),
-    .clkb(clk_100MHz),
-
-    .addra(r_Source_Mem_Addr[0]),
-    .douta(w_Source_Mem_Dout[0][0]),
-    .dina(r_Source_Mem_Din[0][0]),
-    .wea(r_Source_Mem_We[0][0]),
-
-    .addrb(r_Source_Mem_Addr[1]),
-    .doutb(w_Source_Mem_Dout[1][0]),
-    .dinb(r_Source_Mem_Din[1][0]),
-    .web(r_Source_Mem_We[1][0])
+source_mem SOURCE_MEM(
+    .i_clk_100MHz(clk_100MHz),
+    .i_Addr(r_Source_Mem_Addr),
+    .i_Din(r_Source_Mem_Din),
+    .i_We(r_Source_Mem_We),
+    .o_Dout(w_Source_Mem_Dout)
 );
-
-mem_source_image SOURCE_IMAGE_B_R(
-    .clka(clk_100MHz),
-    .clkb(clk_100MHz),
-
-    .addra(r_Source_Mem_Addr[2]),
-    .douta(w_Source_Mem_Dout[2][0]),
-    .dina(r_Source_Mem_Din[2][0]),
-    .wea(r_Source_Mem_We[2][0]),
-
-    .addrb(r_Source_Mem_Addr[3]),
-    .doutb(w_Source_Mem_Dout[3][0]),
-    .dinb(r_Source_Mem_Din[3][0]),
-    .web(r_Source_Mem_We[3][0])
-);
-
-mem_source_image SOURCE_IMAGE_A_G(
-    .clka(clk_100MHz),
-    .clkb(clk_100MHz),
-
-    .addra(r_Source_Mem_Addr[0]),
-    .douta(w_Source_Mem_Dout[0][1]),
-    .dina(r_Source_Mem_Din[0][1]),
-    .wea(r_Source_Mem_We[0][1]),
-
-    .addrb(r_Source_Mem_Addr[1]),
-    .doutb(w_Source_Mem_Dout[1][1]),
-    .dinb(r_Source_Mem_Din[1][1]),
-    .web(r_Source_Mem_We[1][1])
-);
-
-mem_source_image SOURCE_IMAGE_B_G(
-    .clka(clk_100MHz),
-    .clkb(clk_100MHz),
-
-    .addra(r_Source_Mem_Addr[2]),
-    .douta(w_Source_Mem_Dout[2][1]),
-    .dina(r_Source_Mem_Din[2][1]),
-    .wea(r_Source_Mem_We[2][1]),
-
-    .addrb(r_Source_Mem_Addr[3]),
-    .doutb(w_Source_Mem_Dout[3][1]),
-    .dinb(r_Source_Mem_Din[3][1]),
-    .web(r_Source_Mem_We[3][1])
-);
-
-mem_source_image SOURCE_IMAGE_A_B(
-    .clka(clk_100MHz),
-    .clkb(clk_100MHz),
-
-    .addra(r_Source_Mem_Addr[0]),
-    .douta(w_Source_Mem_Dout[0][2]),
-    .dina(r_Source_Mem_Din[0][2]),
-    .wea(r_Source_Mem_We[0][2]),
-
-    .addrb(r_Source_Mem_Addr[1]),
-    .doutb(w_Source_Mem_Dout[1][2]),
-    .dinb(r_Source_Mem_Din[1][2]),
-    .web(r_Source_Mem_We[1][2])
-);
-
-mem_source_image SOURCE_IMAGE_B_B(
-    .clka(clk_100MHz),
-    .clkb(clk_100MHz),
-
-    .addra(r_Source_Mem_Addr[2]),
-    .douta(w_Source_Mem_Dout[2][2]),
-    .dina(r_Source_Mem_Din[2][2]),
-    .wea(r_Source_Mem_We[2][2]),
-
-    .addrb(r_Source_Mem_Addr[3]),
-    .doutb(w_Source_Mem_Dout[3][2]),
-    .dinb(r_Source_Mem_Din[3][2]),
-    .web(r_Source_Mem_We[3][2])
-);
-
-//source_mem SOURCE_MEM(
-//    .i_clk_100MHz(clk_100MHz),
-//    .i_Addr(r_Source_Mem_Addr),
-//    .i_Din(r_Source_Mem_Din),
-//    .i_We(r_Source_Mem_We),
-//    .o_Dout(w_Source_Mem_Dout)
-//);
 
 reg [15:0] r_Result_Mem_Addr = 0;
 reg [1:0][7:0] r_Result_Mem_Din = 0;

@@ -60,7 +60,6 @@ COMPONENT mem_source_image
     dina : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
     douta : OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
     clkb : IN STD_LOGIC;
-    enb : IN STD_LOGIC;
     web : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
     addrb : IN STD_LOGIC_VECTOR(13 DOWNTO 0);
     dinb : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -81,7 +80,6 @@ your_instance_name : mem_source_image
     dina => dina,
     douta => douta,
     clkb => clkb,
-    enb => enb,
     web => web,
     addrb => addrb,
     dinb => dinb,

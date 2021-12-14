@@ -61,7 +61,6 @@ mem_source_image your_instance_name (
   .dina(dina),    // input wire [7 : 0] dina
   .douta(douta),  // output wire [7 : 0] douta
   .clkb(clkb),    // input wire clkb
-  .enb(enb),      // input wire enb
   .web(web),      // input wire [0 : 0] web
   .addrb(addrb),  // input wire [13 : 0] addrb
   .dinb(dinb),    // input wire [7 : 0] dinb

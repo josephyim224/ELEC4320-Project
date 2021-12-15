@@ -1,0 +1,10 @@
+Vivado Simulator 2020.2
+Time resolution is 1 ps
+start
+check init state
+check set scale factor
+check set write row number
+check process
+check set send row number
+done
+$finish called at time : 25816 ns : File "C:/Users/josep/GitHub/ELEC4320-Project/hw/hw.srcs/sources_1/new/fsm_tb.sv" Line 114

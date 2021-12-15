@@ -11,7 +11,7 @@
 // Example: 10 MHz Clock, 115200 baud UART
 // (10000000)/(115200) = 87
   
-// 10000000/115200 = 86.8 = 87
+// 10000000/230400  = 43.4 = 43
 
 module uart_rx 
   (
@@ -21,7 +21,7 @@ module uart_rx
    output [7:0] o_Rx_Byte
    );
   
-  parameter CLKS_PER_BIT   = 87;
+  parameter CLKS_PER_BIT   = 43;
   parameter s_IDLE         = 3'b000;
   parameter s_RX_START_BIT = 3'b001;
   parameter s_RX_DATA_BITS = 3'b010;
@@ -31,7 +31,7 @@ module uart_rx
   reg           r_Rx_Data_R = 1'b1;
   reg           r_Rx_Data   = 1'b1;
    
-  reg [9:0]     r_Clock_Count = 0;
+  reg [5:0]     r_Clock_Count = 0;
   reg [2:0]     r_Bit_Index   = 0; //8 bits total
   reg [7:0]     r_Rx_Byte     = 0;
   reg           r_Rx_DV       = 0;

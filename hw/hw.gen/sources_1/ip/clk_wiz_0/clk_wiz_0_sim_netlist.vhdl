@@ -1,7 +1,7 @@
 -- Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2020.2 (win64) Build 3064766 Wed Nov 18 09:12:45 MST 2020
--- Date        : Wed Dec 15 11:54:12 2021
+-- Date        : Wed Dec 15 23:39:44 2021
 -- Host        : T480s running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode funcsim
 --               c:/Users/josep/GitHub/ELEC4320-Project/hw/hw.gen/sources_1/ip/clk_wiz_0/clk_wiz_0_sim_netlist.vhdl

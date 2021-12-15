@@ -61,21 +61,6 @@ wire [3:0][2:0][7:0] w_Source_Mem_Din;
 wire [3:0][2:0][0:0] w_Source_Mem_We;
 wire [3:0][2:0][7:0] w_Source_Mem_Dout;
 
-//source_mem SOURCE_MEM_A(
-//    .i_clk(clk_50MHz),
-//    .i_Addr(w_Source_Mem_Addr[1:0]),
-//    .i_Din(w_Source_Mem_Din[1:0]),
-//    .i_We(w_Source_Mem_We[1:0]),
-//    .o_Dout(w_Source_Mem_Dout[1:0])
-//);
-
-//source_mem SOURCE_MEM_B(
-//    .i_clk(clk_50MHz),
-//    .i_Addr(w_Source_Mem_Addr[3:2]),
-//    .i_Din(w_Source_Mem_Din[3:2]),
-//    .i_We(w_Source_Mem_We[3:2]),
-//    .o_Dout(w_Source_Mem_Dout[3:2])
-//);
 
 source_mem SOURCE_MEM_B(
     .i_clk(clk_50MHz),

@@ -69,7 +69,7 @@ reg [1:0] r_Tx_DV = 1'b1;
 reg [1:0] r_Tx_DV_Prev = 1'b0;
 assign o_Tx_DV = r_Tx_DV != r_Tx_DV_Prev;
 
-integer dx[10], dy[10], sx[2], sy[2], sx0, sy0, rx[2], ry[3], rxi, ryi;
+integer dx[9], dy[9], sx[2], sy[2], sx0, sy0, rx[2], ry[3], rxi, ryi;
 integer x0[3], x1[3], out[3], out_left[3], out_right[3];
 integer x0_left[3], x0_right[3], x1_left[3], x1_right[3];
 
@@ -84,7 +84,7 @@ always @(posedge i_clk) begin
     if (r_SM_Main != s_SET_WRITE_ROW) `LOOP_COLOR `LOOP_CHANNEL
         if (o_Source_Mem_We[channel][color]) o_Source_Mem_We[channel][color] <= 1'b0;
 
-    if (r_SM_Main != s_PROCESS)
+    if ((r_SM_Main != s_PROCESS) && (r_SM_Main != s_CLEAR_RESULT))
         `LOOP_COLOR o_Result_Mem_We[color] <= 1'b0;
 
     case (r_SM_Main)
@@ -115,12 +115,16 @@ always @(posedge i_clk) begin
                         o_Tx_Byte <= 8'd3;
                         r_Tx_DV <= r_Tx_DV+1;
 
-                        for (i=0;i<10;i=i+1) begin
+                        for (i=0;i<9;i=i+1) begin
                             dx[i] <= 0;
                             dy[i] <= 0;
                         end
                     end
                     c_SET_SEND_ROW_NUMBER: r_SM_Main <= s_SET_SEND_ROW_NUMBER;
+                    c_CLEAR_RESULT: begin
+                        r_SM_Main <= s_CLEAR_RESULT;
+                        o_Result_Mem_Addr <= 0;
+                    end
                 endcase
             end
         s_SET_SCALE_FACTOR:
@@ -152,11 +156,17 @@ always @(posedge i_clk) begin
                 end
 
                 if (r_Color==2) begin
-                    if (r_Mem_Counter == 99) r_SM_Main = s_IDLE;
+                    if (r_Mem_Counter == 99) begin 
+                        r_SM_Main = s_IDLE;
+                        if (o_Source_Mem_Addr[0] == 100*100-1) begin
+                            o_Tx_Byte <= 8'd6;
+                            r_Tx_DV <= r_Tx_DV+1;
+                        end
+                    end
                     r_Mem_Counter <= r_Mem_Counter+1;
                     o_Source_Mem_Addr[0] <= o_Source_Mem_Addr[0]+1;
                     o_Source_Mem_Addr[2] <= o_Source_Mem_Addr[2]+1;
-                end
+                end                
             end
        s_PROCESS:
             begin           
@@ -239,26 +249,20 @@ always @(posedge i_clk) begin
 
                 // compute vertical interpolation - 2
                 `LOOP_COLOR out[color] <= (out_left[color] + out_right[color]) / 100;
+                out_mem_addr <= dy[6] * 140 + dx[6];
 
                 dx[8] <= dx[7];
                 dy[8] <= dy[7];
 
-                // normalized output
-                `LOOP_COLOR norm_out[color] <= out[color];
-                out_mem_addr <= dy[6] * 140 + dx[6];
-                
-                dx[9] <= dx[8];
-                dy[9] <= dy[8];
-
                 // save to memory
+                o_Result_Mem_Addr <= out_mem_addr;
                 `LOOP_COLOR begin
-                    o_Result_Mem_Din[color] <= norm_out[color];
-                    o_Result_Mem_Addr <= out_mem_addr;
+                    o_Result_Mem_Din[color] <= out[color];
                     o_Result_Mem_We[color] <= 1'b1;
                 end
                 
                 // interpolation done
-                if (!i_Tx_Active && dx[9] == (r_Result_Dim-1) && dy[9] == (r_Result_Dim-1)) begin
+                if (!i_Tx_Active && dx[8] == (r_Result_Dim-1) && dy[8] == (r_Result_Dim-1)) begin
                     r_SM_Main = s_IDLE;
 
                     o_Tx_Byte <= 8'd4;
@@ -277,7 +281,7 @@ always @(posedge i_clk) begin
                  `LOOP_COLOR if (r_Color == color) begin
                      o_Tx_Byte <= i_Result_Mem_Dout[color];
                      r_Tx_DV <= r_Tx_DV+1;
-                     r_Tx_Delay <= 8'b010;
+                     r_Tx_Delay <= 8'b001;
                      r_Color <= (r_Color+1)%3;
                  end
 
@@ -286,6 +290,19 @@ always @(posedge i_clk) begin
                      r_Mem_Counter <= r_Mem_Counter+1;
                      o_Result_Mem_Addr <= o_Result_Mem_Addr+1;
                  end
+            end
+        s_CLEAR_RESULT:
+            if (o_Result_Mem_Addr != 140*140) begin
+                `LOOP_COLOR begin
+                    o_Result_Mem_Din[color] <= 0;
+                    o_Result_Mem_We[color] <= 1'b1;
+                end
+                o_Result_Mem_Addr <= o_Result_Mem_Addr+1;
+            end else if (!i_Tx_Active) begin
+                r_SM_Main <= s_IDLE;
+                
+                o_Tx_Byte <= 8'd5;
+                r_Tx_DV <= r_Tx_DV+1;
             end
     endcase
 end

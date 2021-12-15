@@ -1,6 +1,6 @@
 import processing.serial.*;
 
-PImage src_image, result_image;
+PImage apple_img, orange_img, grape_img, src_image, result_image;
 Serial serial;
 
 /*
@@ -20,7 +20,12 @@ byte state = 0;
 void setup() {
   size(640, 640);
 
-  src_image = loadImage("../img/apple.png");
+  apple_img = loadImage("../img/apple.png");
+  orange_img = loadImage("../img/orange.png");
+  grape_img = loadImage("../img/grape.png");
+
+  src_image = apple_img;
+
   result_image = createImage(140, 140, ARGB);
 
   for (int i = 0; i < 140*140; ++i) {
@@ -74,6 +79,12 @@ void draw() {
   draw_button(480, 240, "R");
   draw_button(480, 280, "G");
   draw_button(480, 320, "B");
+
+  // image
+  draw_title(0, 440, "image");
+  draw_button(0, 480, "apple");
+  draw_button(0, 520, "orange");
+  draw_button(0, 560, "grape");
 
   switch (state) {
   case 0:
@@ -300,5 +311,13 @@ void mousePressed() {
       }
     }
     println(";");
+  }
+
+  if (is_in_button(0, 480)) {
+    src_image = apple_img;
+  } else if (is_in_button(0, 520)) {
+    src_image = orange_img;
+  } else if (is_in_button(0, 560)) {
+    src_image = grape_img;
   }
 }

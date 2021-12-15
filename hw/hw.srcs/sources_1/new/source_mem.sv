@@ -22,19 +22,19 @@
 // [channel][color][bits]
 
 module source_mem(
-    input i_clk_100MHz,
-    input [3:0][13:0] i_Addr,
-    input [3:0][2:0][7:0] i_Din,
-    input [3:0][2:0][0:0] i_We,
-    output [3:0][2:0][7:0] o_Dout
+    input i_clk,
+    input [2:0][13:0] i_Addr,
+    input [2:0][2:0][7:0] i_Din,
+    input [2:0][2:0][0:0] i_We,
+    output [2:0][2:0][7:0] o_Dout
 );
 
 generate
     genvar color;
     for (color=0;color<3;color=color+1) begin
         mem_source_image SOURCE_IMAGE_A(
-            .clka(i_clk_100MHz),
-            .clkb(i_clk_100MHz),
+            .clka(i_clk),
+            .clkb(i_clk),
 
             .addra(i_Addr[0]),
             .douta(o_Dout[0][color]),
@@ -46,10 +46,10 @@ generate
             .dinb(i_Din[1][color]),
             .web(i_We[1][color])
         );
-
+        
         mem_source_image SOURCE_IMAGE_B(
-            .clka(i_clk_100MHz),
-            .clkb(i_clk_100MHz),
+            .clka(i_clk),
+            .clkb(i_clk),
 
             .addra(i_Addr[2]),
             .douta(o_Dout[2][color]),

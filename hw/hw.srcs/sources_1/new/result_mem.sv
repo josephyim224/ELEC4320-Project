@@ -21,7 +21,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module result_mem(
-    input i_clk_100MHz,
+    input i_clk,
     input [15:0] i_Addr,
     input [2:0][7:0] i_Din,
     input [2:0][0:0] i_We,
@@ -32,7 +32,7 @@ generate
     genvar color;
     for (color=0;color<3;color=color+1) begin
         mem_result_image RESULT_IMAGE(
-            .clka(i_clk_100MHz),
+            .clka(i_clk),
             .addra(i_Addr),
             .douta(o_Dout[color]),
             .dina(i_Din[color]),

@@ -9,10 +9,10 @@ output [15:0] led;
 
 // --------------------------------------------------------------------------------------
 
-wire clk_100MHz;
+wire clk_50MHz;
 
 clk_wiz_0 CLKGEN(
-    .clk_out1(clk_100MHz),
+    .clk_out1(clk_50MHz),
     .reset(),
     .locked(),
     .clk_in1(clk)
@@ -31,14 +31,14 @@ assign led[1] = RsTx != 1;
 assign led[2] = RsRx != 1;
 
 uart_rx UART_RX_INST(
-    .i_Clock(clk_100MHz),
+    .i_Clock(clk_50MHz),
     .i_Rx_Serial(RsRx),
     .o_Rx_DV(w_Rx_Dv),
     .o_Rx_Byte(w_Rx_Byte)
 );
 
 uart_tx UART_TX_INST(
-    .i_Clock(clk_100MHz),
+    .i_Clock(clk_50MHz),
     .i_Tx_DV(w_Tx_DV),
     .i_Tx_Byte(w_Tx_Byte),
     .o_Tx_Active(w_Tx_Active),
@@ -49,7 +49,7 @@ uart_tx UART_TX_INST(
 // --------------------------------------------------------------------------------------
 
 breathing_led BREATHING_LED(
-    .clk_100MHz(clk_100MHz),
+    .clk_100MHz(clk_50MHz),
     .led(led[0])
 );
 
@@ -61,8 +61,24 @@ wire [3:0][2:0][7:0] w_Source_Mem_Din;
 wire [3:0][2:0][0:0] w_Source_Mem_We;
 wire [3:0][2:0][7:0] w_Source_Mem_Dout;
 
-source_mem SOURCE_MEM(
-    .i_clk_100MHz(clk_100MHz),
+//source_mem SOURCE_MEM_A(
+//    .i_clk(clk_50MHz),
+//    .i_Addr(w_Source_Mem_Addr[1:0]),
+//    .i_Din(w_Source_Mem_Din[1:0]),
+//    .i_We(w_Source_Mem_We[1:0]),
+//    .o_Dout(w_Source_Mem_Dout[1:0])
+//);
+
+//source_mem SOURCE_MEM_B(
+//    .i_clk(clk_50MHz),
+//    .i_Addr(w_Source_Mem_Addr[3:2]),
+//    .i_Din(w_Source_Mem_Din[3:2]),
+//    .i_We(w_Source_Mem_We[3:2]),
+//    .o_Dout(w_Source_Mem_Dout[3:2])
+//);
+
+source_mem SOURCE_MEM_B(
+    .i_clk(clk_50MHz),
     .i_Addr(w_Source_Mem_Addr),
     .i_Din(w_Source_Mem_Din),
     .i_We(w_Source_Mem_We),
@@ -75,7 +91,7 @@ wire [2:0][0:0] w_Result_Mem_We;
 wire [2:0][7:0] w_Result_Mem_Dout;
 
 result_mem RESULT_MEM(
-    .i_clk_100MHz(clk_100MHz),
+    .i_clk(clk_50MHz),
     .i_Addr(w_Result_Mem_Addr),
     .i_Din(w_Result_Mem_Din),
     .i_We(w_Result_Mem_We),
@@ -85,7 +101,7 @@ result_mem RESULT_MEM(
 // --------------------------------------------------------------------------------------
 
 fsm FSM(
-    .i_clk_100MHz(clk_100MHz),
+    .i_clk(clk_50MHz),
     .o_led(led),
     
     .o_Source_Mem_Addr(w_Source_Mem_Addr),

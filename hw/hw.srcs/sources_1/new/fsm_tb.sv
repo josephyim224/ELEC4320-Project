@@ -48,7 +48,7 @@ wire w_Tx_Active = 0;
 integer fsm_i;
 
 fsm FSM(
-    .i_clk_100MHz(clk),
+    .i_clk(clk),
     .i_Rx_Dv(r_Rx_Dv),
     .i_Rx_Byte(r_Rx_Byte),
     .i_Tx_Active(0),

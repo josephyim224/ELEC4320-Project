@@ -33,6 +33,8 @@ int set_pixel(int pixel, byte data, int c) {
   draw_image
  */
 void draw_image(PImage img, int x, int y, String title) {
+  fill(0,0,0);
+  
   line(x, y, x, y+img.height);
   line(x, y, x+img.width, y);
   line(x+img.width, y, x+img.width, y+img.height);

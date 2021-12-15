@@ -9,6 +9,7 @@ boolean overRect(int x, int y, int width, int height) {
 }
 
 void draw_title(int x, int y, String s) {
+  fill(0,0,0);
   textSize(30);
   text(s, x, y+30);
 }
@@ -17,6 +18,7 @@ void draw_title(int x, int y, String s) {
   button size assumed to be 100x30
 */
 void draw_button(int x, int y, String s) {
+  noFill();
   textSize(30);
   text(s, x, y+30);
   rect(x, y, 100, 30);

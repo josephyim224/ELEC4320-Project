@@ -116,10 +116,17 @@ Meanwhile, since floating point operation is not supported, values related with 
 An apple is interpolated from 100x100 to 140x140:
 ![](/documentation/good_apple_140.png)
 
-# Corrupted sample
+# Corrupted Sample
 
 When the FPGA is overclocked from 10MHz to 100MHz (which clearly violates the timing constraint), part of the result image is corrupted:
 ![](/documentation/corrupted_apple_140.png)
+
+# Repo Structure
+
+- `/documentation`: images and earlier documents
+- `/hw`: Vivado 2020.2 Project
+- `/img`: test images
+- `/ui`: UI implemented by Processing
 
 # Milestones
 | Task | Description | Progress |
